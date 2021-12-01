@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -10,13 +11,21 @@ class Poema
 {
 
 public:
-	Poema (const string &t);
+	Poema (const Poema& ob);
+	Poema(const string & Verso);
 	~Poema ();
 
 	void acrescentaVerso(const string& verso);
 	void eliminaVerso(int ordem);
 
 	Poema & operator=(const Poema & ob);
+
+	string GetAsString()
+	{
+		ostringstream b;
+		b << "titulo: " << titulo << "\n";
+		return b.str();
+	}
 
 private:
 	string titulo;
@@ -25,22 +34,57 @@ private:
 
 };
 
-Poema ::Poema (const string& t)
+Poema::Poema(const string& tVerso) : titulo(tVerso)
 {
+	
+}
+
+/*
+Poema ::Poema (const Poema& ob): titulo (ob.titulo), nVersos (ob.nVersos)
+{
+	if (ob.pVersos == nullptr || ob.nVersos == 0)
+	{
+		pVersos = nullptr;
+		return;
+	}
+
+	pVersos = new string[ob.nVersos];
+
+	for (int i = 0; i < nVersos; i++)
+	{
+		pVersos[i] = ob.pVersos[i];
+	}
+
+}*/
+
+Poema::Poema(const Poema& ob): pVersos(nullptr) {
+	*this = ob;
+
 }
 
 Poema ::~Poema ()
 {
 }
 
-void Poema:: acrescentaVerso(const string& verso) {
+void Poema:: acrescentaVerso(const string& verso) 
+{
+	string* aux = new string[nVersos + 1];
+	
+	for (int i = 0; i < nVersos; i++) {
+		aux[i] = pVersos[i];
+	}
+
+	aux[nVersos] = verso;
+	++nVersos;
+	delete[] pVersos;
+	pVersos = aux;
 
 }
 
 
 Poema & Poema::operator= (const Poema & ob)
 {
-	if (this == &ob)
+	if (this == &ob) // prevencao de auto-atribuicao
 	{
 		return *this;
 	}
@@ -66,9 +110,50 @@ Poema & Poema::operator= (const Poema & ob)
 }
 
 
+void Poema::eliminaVerso(int ordem)
+{
+	if (ordem < 0 || ordem >= nVersos) { return; }
+	if (nVersos == 1)
+	{
+		delete[] pVersos;
+		pVersos = nullptr;
+		nVersos = 0;
+		return;
+	}
+
+	string* aux = new string[nVersos - 1];
+
+	for (int i; i < ordem; ++i)
+	{
+		aux[i] = pVersos[i];
+	}
+
+	for (int i = ordem; i < nVersos - 1; ++i)
+	{
+		aux[i] = pVersos[i + 1];
+	}
+	--nVersos;
+	delete[] pVersos;
+	pVersos = aux;
+
+}
+
 int main()
 {
-    std::cout << "Hello World!\n";
+	cout << "Construtor por Cópia \n";
+	Poema a("Os Lusiados");
+	Poema b("Liberdade");
+	//Poema b (a);
+
+	Poema c = b;
+
+	c = a;
+
+	cout << c.GetAsString();
+
+	cout << a.GetAsString();
+
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
