@@ -27,6 +27,7 @@ class Matrix{
 
 public:
     Matrix(int rows, int cols);
+    Matrix(const Matrix& m);
     ~Matrix();
     inline int linhas(void) const { return Linhas; } // const metodo não pode
     inline int colunas(void) const { return Colunas; } 
@@ -39,6 +40,17 @@ Matrix::Matrix(int rows, int cols) : Linhas(rows), Colunas(cols)
 {
     valores = new double[Linhas * Colunas];
 }
+
+Matrix::Matrix(const Matrix& m) : Linhas(m.Linhas), Colunas(m.Colunas)
+{ // copy constructor
+    valores = new double[Linhas * Colunas];
+    for (int i = 0; i < Linhas * Colunas; ++i) {
+        valores[i] = m.valores[i];
+    }
+}
+// Tarefa ?  criar o operador = para cópia do construtor
+
+
 Matrix::~Matrix()
 {
     delete[] valores;
@@ -86,11 +98,18 @@ int main()
     int ret = 0;
     try {
         Matrix m1(3, 3);
-        m1.setValueAt(10.5, 2, 3); // coluna 3 permite a lançar a excepção (exception)
-        // m1.preencherAleatoriamente();
-        m1.setValueAt(10.22, 0, 1);
+        m1.preencherAleatoriamente();
         
+        // m1.setValueAt(10.22, 0, 1);
+         m1.setValueAt(10.5, 2, 3); // coluna 3 permite a lançar a excepção (exception)
+
         imprimirMatrix(m1);
+
+        cout << "Copia por Construtor" << endl;
+        Matrix m2(m1);
+        imprimirMatrix(m2);
+
+
     }
     catch (out_of_range& e) {
         cout << "Erro: " << e.what() << endl;
