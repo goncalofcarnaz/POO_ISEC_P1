@@ -1,0 +1,8 @@
+﻿  MapExampleCars.cpp
+C:\Users\gonca\OneDrive\the War Room\ISEC_POO\Suporte Apos M1\MapExampleCars\MapExampleCars\MapExampleCars.cpp(29,74): error C2679: binary '==': no operator found which takes a right-hand operand of type 'bool' (or there is no acceptable conversion)
+E:\Install_Folders\VS\VC\Tools\MSVC\14.29.30133\include\xtree(231,21): message : could be 'bool std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const std::string,int>>>>::operator ==(const std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const std::string,int>>>> &) noexcept const'
+C:\Users\gonca\OneDrive\the War Room\ISEC_POO\Suporte Apos M1\MapExampleCars\MapExampleCars\MapExampleCars.cpp(29,74): message : while trying to match the argument list '(_Ty1, bool)'
+          with
+          [
+              _Ty1=std::_Tree_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<const std::string,int>>>>
+          ]
